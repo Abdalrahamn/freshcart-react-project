@@ -1,15 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import RelatedProducts from "./components/RelatedProducts/RelatedProducts";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 export default function ProductDetails() {
   const { id, categoryId } = useParams();
   const [product, setProduct] = useState(null);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+  };
+
   useEffect(() => {
     getProductDetails();
-  });
+  }, [id]);
 
   function getProductDetails() {
     axios
@@ -28,9 +40,13 @@ export default function ProductDetails() {
 
   return (
     <>
-      <div className="flex gap-8 p-4 justify-center items-center">
+      <div className="flex gap-8 p-4 justify-center items-center my-10">
         <div className="w-1/3">
-          <img src={product.imageCover} alt={product.title} />
+          <Slider {...settings}>
+            {product.images.map((image) => (
+              <img src={image} alt={product.title} key={image} />
+            ))}
+          </Slider>
         </div>
         <div className="w-2/3">
           <h2 className="text-2xl font-semibold">{product.title}</h2>
@@ -51,7 +67,7 @@ export default function ProductDetails() {
       </div>
 
       <h2 className="text-2xl font-semibold">Related Products</h2>
-      <div className="">
+      <div className="my-10">
         <RelatedProducts id={id} categoryId={categoryId} />
       </div>
     </>

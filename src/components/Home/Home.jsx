@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import RecentProducts from "../Home/components/RecentProducts/RecentProducts";
 import axios from "axios";
+import PopularCategories from "./components/PopularCategories/PopularCategories";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -22,6 +23,7 @@ export default function Home() {
 
   return (
     <div>
+      <PopularCategories />
       <RecentProducts products={products} />
     </div>
   );
