@@ -6,6 +6,7 @@ import RelatedProducts from "./components/RelatedProducts/RelatedProducts";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import Loader from "../shared/Loader/Loader";
 
 export default function ProductDetails() {
   const { id, categoryId } = useParams();
@@ -36,7 +37,7 @@ export default function ProductDetails() {
       });
   }
 
-  if (!product) return <div>Loading...</div>;
+  if (!product) return <Loader />;
 
   return (
     <>

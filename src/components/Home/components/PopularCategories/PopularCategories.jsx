@@ -16,12 +16,19 @@ export default function PopularCategories() {
     slidesToScroll: 1,
   };
 
+  async function getCategories() {
+    try {
+      const { data } = await axios.get(
+        "https://ecommerce.routemisr.com/api/v1/categories"
+      );
+      setCategories(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
-    axios
-      .get("https://ecommerce.routemisr.com/api/v1/categories")
-      .then((res) => {
-        setCategories(res.data.data);
-      });
+    getCategories();
   }, []);
 
   return (

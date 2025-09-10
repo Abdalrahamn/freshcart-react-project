@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import RecentProducts from "../Home/components/RecentProducts/RecentProducts";
 import axios from "axios";
 import PopularCategories from "./components/PopularCategories/PopularCategories";
+import StaticCategories from "./components/StaticCategories/StaticCategories";
+import Loader from "../shared/Loader/Loader";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -19,10 +21,11 @@ export default function Home() {
     getProducts();
   });
 
-  if (products.length === 0) return <div>Loading...</div>;
+  if (products.length === 0) return <Loader />;
 
   return (
     <div>
+      <StaticCategories />
       <PopularCategories />
       <RecentProducts products={products} />
     </div>
