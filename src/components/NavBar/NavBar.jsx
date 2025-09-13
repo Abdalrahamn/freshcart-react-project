@@ -5,16 +5,24 @@ import logo from "../../assets/images/freshcart-logo.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { CounterContext } from "../../contexts/counterContext.jsx";
 import { TokenContext } from "../../contexts/tokenContext.jsx";
+import { CartContext } from "../../contexts/cartContext.jsx";
 
 export default function NavBar() {
   const { counter, setCounter } = useContext(CounterContext);
   const { token, setToken } = useContext(TokenContext);
+  const { cartCount, getCartItems } = useContext(CartContext);
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("userToken");
     setToken(null);
     navigate("/login");
   };
+
+  useEffect(() => {
+    if (token) {
+      getCartItems();
+    }
+  }, [token]);
 
   return (
     <nav className="bg-white border-gray-200 :bg-gray-900">
@@ -76,6 +84,9 @@ export default function NavBar() {
                     className="block py-2 px-3 text-gray-900 rounded-sm md:border-0  md:p-0"
                   >
                     Cart
+                    <span className="text-white bg-main rounded-sm px-2 ms-2">
+                      {cartCount}
+                    </span>
                   </NavLink>
                 </li>
               </ul>

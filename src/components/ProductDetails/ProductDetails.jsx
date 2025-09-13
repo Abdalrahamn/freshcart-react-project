@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { CartContext } from "../../contexts/cartContext";
+import { toast } from "react-toastify";
 import RelatedProducts from "./components/RelatedProducts/RelatedProducts";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -11,6 +13,7 @@ import Loader from "../shared/Loader/Loader";
 export default function ProductDetails() {
   const { id, categoryId } = useParams();
   const [product, setProduct] = useState(null);
+  const { addToCart, loading } = useContext(CartContext);
 
   const settings = {
     dots: true,
@@ -37,6 +40,15 @@ export default function ProductDetails() {
       });
   }
 
+  async function handleAddToCart() {
+    const result = await addToCart(product.id);
+    if (result.success) {
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
+  }
+
   if (!product) return <Loader />;
 
   return (
@@ -61,8 +73,12 @@ export default function ProductDetails() {
             </p>
           </div>
 
-          <button className="btn bg-main text-center text-white p-2 rounded-md w-full cursor-pointer">
-            Add to Cart
+          <button
+            onClick={handleAddToCart}
+            disabled={loading}
+            className="btn bg-main text-center text-white p-2 rounded-md w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Adding..." : "Add to Cart"}
           </button>
         </div>
       </div>

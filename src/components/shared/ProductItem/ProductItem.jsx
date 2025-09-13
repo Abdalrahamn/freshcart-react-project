@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductItem({ product }) {
+export default function ProductItem({ product, addProductToCart, loading }) {
   return (
     <div className="flex flex-col gap-2 w-1/6 border-2 border-gray-300 rounded-md p-2 shadow-md">
       <div className="product">
@@ -24,8 +24,12 @@ export default function ProductItem({ product }) {
           </div>
         </Link>
 
-        <button className="btn bg-main text-center text-white p-2 rounded-md w-full cursor-pointer">
-          Add to Cart
+        <button
+          onClick={() => addProductToCart(product.id)}
+          disabled={loading}
+          className="btn bg-main text-center text-white p-2 rounded-md w-full cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {loading ? "Adding..." : "Add to Cart"}
         </button>
       </div>
     </div>

@@ -6,12 +6,15 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "flowbite";
 import CounterContextProvider from "./contexts/counterContext.jsx";
 import TokenContextProvider from "./contexts/tokenContext.jsx";
+import CartContextProvider from "./contexts/cartContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <TokenContextProvider>
       <CounterContextProvider>
-        <App />
+        <CartContextProvider>
+          <App />
+        </CartContextProvider>
       </CounterContextProvider>
     </TokenContextProvider>
   </StrictMode>
