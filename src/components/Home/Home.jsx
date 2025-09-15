@@ -18,8 +18,10 @@ export default function Home() {
   }
 
   useEffect(() => {
-    getProducts();
-  });
+    if (products.length === 0) {
+      getProducts();
+    }
+  }, []);
 
   if (products.length === 0) return <Loader />;
 

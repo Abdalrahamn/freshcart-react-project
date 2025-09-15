@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { CartContext } from "../../contexts/cartContext";
 import Loader from "../shared/Loader/Loader";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
   const {
@@ -152,9 +153,14 @@ export default function Cart() {
             <span>Total Price:</span>
             <span className="text-main">${cartData.totalCartPrice}</span>
           </div>
-          <button className="w-full mt-6 bg-main text-white py-3 rounded-md hover:bg-green-600 transition-colors text-lg font-semibold">
-            Proceed to Checkout
-          </button>
+          <div className="flex justify-center mt-10">
+            <Link
+              to="/checkout"
+              className="bg-main text-white p-5 rounded-md hover:bg-green-600 transition-colors text-lg font-semibold cursor-pointer"
+            >
+              Proceed to Checkout
+            </Link>
+          </div>
         </div>
       )}
     </div>

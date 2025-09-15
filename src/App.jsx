@@ -14,6 +14,7 @@ import Login from "./components/Login/Login";
 import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import AuthView from "./components/AuthView/AuthView";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
+import Checkout from "./components/Checkout/Checkout";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -84,6 +85,14 @@ function App() {
           element: (
             <ProtectedRoutes>
               <ProductDetails />
+            </ProtectedRoutes>
+          ),
+        },
+        {
+          path: "checkout",
+          element: (
+            <ProtectedRoutes>
+              <Checkout />
             </ProtectedRoutes>
           ),
         },
