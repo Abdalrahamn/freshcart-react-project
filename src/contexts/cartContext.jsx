@@ -109,6 +109,28 @@ export default function CartContextProvider({ children }) {
     }
   }
 
+  async function checkoutOnline(values) {
+    try {
+      const response = await axios.post(
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=http://localhost:5173`,
+        values,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      if (response.data.status === "success") {
+        return { success: true, data: response.data.session };
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: error.response?.data?.message || "Failed to checkout online",
+      };
+    }
+  }
+
   // Update cart item quantity
   async function updateCartItemQuantity(productId, count) {
     if (!token) return { success: false, message: "Please login first" };
@@ -204,6 +226,22 @@ export default function CartContextProvider({ children }) {
     }
   }
 
+  // get all orders
+  async function getOrders() {
+    const response = await axios.get(
+      "https://ecommerce.routemisr.com/api/v1/orders",
+      {
+        headers: {
+          token: token,
+        },
+      }
+    );
+    if (response.data.status === "success") {
+      return { success: true, data: response.data.data };
+    }
+    return { success: false, message: response.data.message };
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -217,6 +255,8 @@ export default function CartContextProvider({ children }) {
         removeFromCart,
         clearCart,
         checkout,
+        checkoutOnline,
+        getOrders,
       }}
     >
       {children}

@@ -15,6 +15,7 @@ import ProtectedRoutes from "./components/ProtectedRoutes/ProtectedRoutes";
 import AuthView from "./components/AuthView/AuthView";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
 import Checkout from "./components/Checkout/Checkout";
+import Allorders from "./components/Allorders/Allorders";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -93,6 +94,15 @@ function App() {
           element: (
             <ProtectedRoutes>
               <Checkout />
+            </ProtectedRoutes>
+          ),
+        },
+
+        {
+          path: "allorders",
+          element: (
+            <ProtectedRoutes>
+              <Allorders />
             </ProtectedRoutes>
           ),
         },

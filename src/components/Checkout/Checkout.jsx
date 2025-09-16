@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PuffLoader } from "react-spinners";
 import { toast } from "react-toastify";
@@ -7,7 +7,8 @@ import * as Yup from "yup";
 import { CartContext } from "../../contexts/cartContext";
 export default function Checkout() {
   const navigate = useNavigate();
-  const { checkout } = useContext(CartContext);
+  const { checkout, checkoutOnline } = useContext(CartContext);
+  const [onlinePayment, setOnlinePayment] = useState(false);
   const initialState = {
     details: "",
     phone: "",
@@ -25,13 +26,23 @@ export default function Checkout() {
   });
 
   async function callCheckoutApi(values) {
-    const result = await checkout(values);
+    const result = onlinePayment
+      ? await checkoutOnline(values)
+      : await checkout(values);
     if (result.success) {
-      navigate("/cart");
-      toast.success("Checkout successful");
+      if (onlinePayment) {
+        window.open(result.data.url, "_blank");
+      } else {
+        navigate("/cart");
+        toast.success("Checkout successful");
+      }
     } else {
       toast.error(result.message);
     }
+  }
+
+  function handleOnlinePayment(e) {
+    setOnlinePayment(e.target.checked);
   }
 
   return (
@@ -140,6 +151,17 @@ export default function Checkout() {
         ) : (
           ""
         )}
+      </div>
+
+      {/* need check box for online payment */}
+      <div className="flex items-center mb-5">
+        <input
+          type="checkbox"
+          id="onlinePayment"
+          className="mr-2 main-color"
+          onChange={handleOnlinePayment}
+        />
+        <label htmlFor="onlinePayment">Online Payment</label>
       </div>
 
       {checkoutForm.isSubmitting ? (
