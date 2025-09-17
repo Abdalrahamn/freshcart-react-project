@@ -226,20 +226,18 @@ export default function CartContextProvider({ children }) {
     }
   }
 
-  // get all orders
-  async function getOrders() {
-    const response = await axios.get(
-      "https://ecommerce.routemisr.com/api/v1/orders",
-      {
-        headers: {
-          token: token,
-        },
+  // https://ecommerce.routemisr.com/api/v1/orders/user/6407cf6f515bdcf347c09f17
+  async function getUserOrders(userId) {
+    try {
+      const response = await axios.get(
+        `https://ecommerce.routemisr.com/api/v1/orders/user/${userId}`
+      );
+      if (response.data) {
+        return response.data;
       }
-    );
-    if (response.data.status === "success") {
-      return { success: true, data: response.data.data };
+    } catch (error) {
+      return { success: false, message: error.response?.data?.message };
     }
-    return { success: false, message: response.data.message };
   }
 
   return (
@@ -256,7 +254,7 @@ export default function CartContextProvider({ children }) {
         clearCart,
         checkout,
         checkoutOnline,
-        getOrders,
+        getUserOrders,
       }}
     >
       {children}

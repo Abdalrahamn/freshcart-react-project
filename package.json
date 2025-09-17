@@ -18,6 +18,7 @@
     "formik": "^2.4.6",
     "generate-react-cli": "^8.4.9",
     "i": "^0.3.7",
+    "jwt-decode": "^4.0.0",
     "npm": "^11.5.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
